@@ -84,6 +84,7 @@ and so on.
 [ ] Memory and CPU benchmarking  
 [ ] Azure Blob Storage support  
 [ ] Split docker images for S3 and Azure Blob Storage  
+[ ] Ensure later uploads of failed files, once a successful upload has occurred  
 
 Extend configuration
 
