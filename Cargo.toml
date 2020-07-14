@@ -10,8 +10,11 @@ readme = "README.md"
 repository = "local"
 version = "0.1.0"
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+[[bin]]
+name = "uploader"
+path = "src/main.rs"
 
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 [dependencies]
 anyhow = "1.0.31"
 async-trait = "0.1.36"
@@ -26,8 +29,8 @@ notify = "4.0"
 pretty_env_logger = "0.4"
 prometheus = "0.9.0"
 retry = "1.0"
-rusoto_core = "0.44.0"
-rusoto_s3 = "0.44.0"
+rusoto_core = {version = "0.44.0", default_features = false, features = ["rustls"]}
+rusoto_s3 = {version = "0.44.0", default_features = false, features = ["rustls"]}
 signal-hook = {version = "0.1.16", features = ["tokio-support"]}
 thiserror = "1.0.20"
 threadpool = "1.8"
