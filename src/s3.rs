@@ -2,7 +2,7 @@ use anyhow::{bail, Result};
 use async_trait::async_trait;
 use futures::stream::TryStreamExt;
 use futures_retry::FutureRetry;
-use log::{debug, error, trace};
+use log::{debug, error, info, trace};
 use rusoto_core::Region;
 use rusoto_s3::{PutObjectRequest, S3Client, S3};
 use std::{fs::File, path::PathBuf, time::Duration};
@@ -122,8 +122,9 @@ impl RetryMove for S3Uploader {
             Err(_) => {
                 FAILED_UPLOADS.inc();
                 error!(
-                    "[{:?}] Exceeded maximum retry ({:?}) for copy",
-                    &pathbuf, error_handler.max_retries
+                    "[{:?}] Exceeded maximum retries ({}) for copy",
+                    &pathbuf,
+                    error_handler.max_retries.unwrap()
                 );
                 return;
             }
@@ -136,12 +137,15 @@ impl RetryMove for S3Uploader {
             Err(_) => {
                 FAILED_DELETES.inc();
                 error!(
-                    "[{:?}] Exceeded maximum retry ({:?}) for delete",
-                    &pathbuf, error_handler.max_retries
+                    "[{:?}] Exceeded maximum retries ({}) for delete",
+                    &pathbuf,
+                    error_handler.max_retries.unwrap()
                 );
-            } // TODO: there should be a return here.  Write a test RED/GREEN/REFACTOR.
+                return;
+            }
         }
 
+        info!("[{:?}] uploaded successfully.", &pathbuf);
         COMPLETED_UPLOADS.inc();
     }
 }
