@@ -22,7 +22,7 @@ bytes = "0.5"
 clap = {version = "2.33.1", features = ["yaml"]}
 futures = "0.3"
 futures-retry = "0.5"
-hyper = "0.13"
+hyper = "0.14"
 lazy_static = "1.4.0"
 log = "0.4"
 notify = "4.0"
